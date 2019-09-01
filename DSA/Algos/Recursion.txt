@@ -1,0 +1,102 @@
+fib_arr = [None]*100
+fib_arr[0] = 0
+fib_arr[1] = 1
+def fib(val):
+	if not fib_arr[val] == None:
+		return fib_arr[val]
+	res = fib(val-1)+fib(val-2)
+	fib_arr[val] = res
+	return res
+
+def fact(val):
+	if val==0:
+		return 1
+	return val*fact(val-1)
+
+def pow(x,n):
+	if n==0:
+		return 1
+	if n==1:
+		return x
+	elif n%2==0:
+		p = pow(x,n/2)
+		return p*p
+	else:
+		return x * pow(x,n-1)
+
+def mod_exp(x,n,m):
+	if n==0:
+		return 1%m
+	elif n==1:
+		return x%m
+	elif n%2==0:
+		p = mod_exp(x,n/2,m)
+		return ( ( (p%m) * (p%m) ) %m )
+	else:
+		return ( ( (x%m) * (mod_exp(x,n-1,m)%m) ) %m )
+
+
+#check if word pattern  exists on board
+
+def S_N(w_arr,w_i,c_i,s_w,s_i):
+	if not (w_i<len(w_arr) and w_i>-1 and c_i<len(w_arr[w_i]) and c_i>-1):
+		return False
+	if not w_arr[w_i][c_i] == s_w[s_i]:
+		return False
+	co_ord = ','.join(str(w_i)+str(c_i))
+	if s_i == len(s_w)-1:
+		return True
+	cur_temp = w_arr[w_i][c_i]
+	w_arr[w_i][c_i] = ''
+	found = ( S_N(w_arr,w_i,c_i-1,s_w,s_i+1) or
+	S_N(w_arr,w_i,c_i+1,s_w,s_i+1) or
+	S_N(w_arr,w_i-1,c_i,s_w,s_i+1) or
+	S_N(w_arr,w_i+1,c_i,s_w,s_i+1) )
+	w_arr[w_i][c_i] = cur_temp
+	return found
+
+def Search_word(words,pattern):
+	Start_path = []
+	for w_i in range(len(words)):
+		for c_i in range(len(words[w_i])):
+			if S_N(words,w_i,c_i,pattern,0):
+				return True
+	return False
+
+
+
+board =[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+
+
+
+words = ['ABCCED','SEE','ABCB','SFDA','SFDC','SFDF','BCCE']
+
+
+def find_words(board,words):
+	found_words = []
+	for word in words:
+		if Search_word(board,word):
+			found_words.append(word)
+	return found_words
+
+
+find_words(board,words)
+
+
+##################################################
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+#number of ways to make 1,2,3 hops to climb n-steps
+def  step_combo(steps,seen):
+	if steps==0:
+		return 1
+	elif steps>0:
+		if not seen[steps-1]==None:
+			return seen[steps-1]
+		else:
+			seen[steps-1] = step_combo(steps-1,seen) + step_combo(steps-2,seen) + step_combo(steps-3,seen)
+			return seen[steps-1] 
+	else:
+		return 0
+
+step_combo(5,[None]*5)
+
+
+
+
+def path(x,y,mat,cur_path):
+	if x==(len(mat[0])-1) and y==(len(mat)-1):
+		print(cur_path)
+	else:
+		cur_path_r = cur_path[:]
+		cur_path_d = cur_path[:]
+		if x<len(mat[0])-1:
+			if mat[y][x+1]:
+				cur_path_r.append('r')
+				path(x+1,y,mat,cur_path_r)
+		if y<len(mat)-1:
+			if mat[y+1][x]:
+				cur_path_d.append('d')
+				path(x,y+1,mat,cur_path_d)
+
+mat = [[1,1,0,0,0],
+	   [0,1,1,0,0],
+	   [0,0,1,1,1],
+	   [0,0,1,0,1],
+	   [0,0,1,1,1]]
+
+path(0,0,mat,[])

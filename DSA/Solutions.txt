@@ -1,0 +1,263 @@
+#1 How would you determine if there is a cycle in a linked list? 
+
+class node:
+	def __init__(self,data):
+		self.data = data
+		self.next = None
+
+class ll:
+	def __init__(self):
+		self.head = None
+	def insert(self,val):
+		val.next = self.head
+		self.head = val
+
+
+def loop(ll):
+	node1 = ll.head.next.next
+	p = 2
+	node2 = ll.head
+	while node1:
+		if node1==node2:
+			return True
+		if not p%2:
+			node2 = node2.next
+		node1 = node1.next
+		p+=1
+	return False
+
+#a6->a5->a4->a3->a2->a1
+
+
+
+ll1 = ll()
+
+a1 = node(1)
+a2 = node(2)
+a3 = node(3)
+a4 = node(4)
+a5 = node(5)
+a6 = node(6)
+a7 = node(7)
+a8 = node(8)
+a9 = node(9)
+a10 = node(10)
+a11 = node(11)
+a12 = node(12)
+a13 = node(13)
+a14 = node(14)
+a15 = node(15)
+
+ll1.insert(a1)
+ll1.insert(a2)
+ll1.insert(a3)
+ll1.insert(a4)
+ll1.insert(a5)
+ll1.insert(a6)
+ll1.insert(a7)
+ll1.insert(a8)
+ll1.insert(a9)
+ll1.insert(a10)
+ll1.insert(a11)
+ll1.insert(a12)
+ll1.insert(a13)
+ll1.insert(a14)
+ll1.insert(a15)
+#ll1.head.next.next.next.next.next.next.next.next.next.next.next.next.next.next = a14
+
+
+
+
+#a6->a5->a4->a3->a5
+#    |_______J
+#ll1.head.next.next.next.next = a5
+
+
+
+
+
+
+
+#2 How would you find the head of the cycle i.e. where the cycle starts?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#5find value in pivoted, sorted array
+def SP(arr,start,end):
+	if start>end:
+		return -1
+	if start==end:
+		return start
+	mid = (start+end)//2
+	if mid<end and arr[mid]>arr[mid+1]:
+		return mid
+	if mid>start and arr[mid]<arr[mid-1]:
+		return mid-1
+	if arr[start]<arr[mid]:
+		return SP(arr,mid+1,end)
+	return SP(arr,start,mid-1)
+
+def BS(arr,start,end,val):
+	if start>end:
+		return -1
+	mid = (start+end)//2
+	if arr[mid]==val:
+		return mid
+	if arr[mid]<val:
+		return BS(arr,mid+1,end,val)
+	else:
+		return BS(arr,start,mid-1,val)
+
+def PBS(arr,val):
+	start = 0
+	end = len(arr)-1
+	pi = SP(arr,0,end)
+	if pi<0:
+		return("Not found")
+	if ((val<=arr[pi])and(val>=arr[pi+1])):
+		if val==arr[pi]:
+			return("found at index "+str(pi))
+		elif val<arr[start]:
+			fi = BS(arr,pi+1,end,val)
+		else:
+			fi = BS(arr,start,pi-1,val)
+	else:
+		return("Not found")
+	if fi<0:
+		return("Not found")
+	return("found at index "+str(fi))
+
+
+
+
+
+#all sum combinations in list
+def add(arr,ind=0,sum=0):
+	if ind > len(arr)-1:
+		print(sum)
+		return
+	add(arr,ind+1,sum+arr[ind])
+	add(arr,ind+1,sum)
+
+add([1,2,3])
+
+
+
+#deciman to 14-bit binary
+def dec_to_bin(val):
+        ret = ['0']*14
+        i = 13
+        while i>=0:
+                ret[i] = str((val%2))
+                i-=1
+                val//=2
+        return ''.join(ret)
+
+
+
+
+
+
+
+def win(arr):
+	cand = set(arr)
+	polls = {}
+	for i in cand:
+		polls[i] = 0
+	for i in arr:
+		polls[i]+=1
+	return max(polls,key = polls.get)
+
+
+#first non repeating char
+def FNR(string):
+	chr_count = [0]*256
+	for i in string:
+		chr_count[ord(i)]+=1
+	for i in string:
+		if chr_count[ord(i)]==1:
+			return i
+
+#inversion count O(n^2)
+def invc(arr):
+	inv_count = 0
+	for i in range(len(arr)):
+		for j in range(i+1,len(arr)):
+			if arr[i] > arr[j]:
+				inv_count+=1
+	return inv_count
+
+
+
+
+def join(arr1,arr2):
+	ret_arr = []
+	while len(arr1) and len(arr2):
+		if arr1[0]<=arr2[0]:
+			ret_arr.append(arr1.pop(0))
+		else:
+			ret_arr.append(arr2.pop(0))
+	for i in arr1:
+		ret_arr.append(i)
+	for i in arr2:
+		ret_arr.append(i)
+	return ret_arr
+
+def M_S(arr):
+	if len(arr)<=1:
+		return arr
+	L = M_S(arr[(len(arr)//2):])
+	R = M_S(arr[:(len(arr)//2)])
+	return(join(L,R))
+
+
+
+
+################################################################
+
+
+
+def dup(string):
+	string = list(string)
+	char_arr = dict.fromkeys(string,0)
+	for i in range(len(string)):
+		char_count = char_arr[string[i]]
+		char_count+=1
+		if char_count>1:
+			string.pop(i)
+			char_count-=1
+	return ''.join(string)
+
+
+
+################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

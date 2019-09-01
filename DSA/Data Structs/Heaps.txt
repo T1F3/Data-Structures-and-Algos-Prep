@@ -1,0 +1,64 @@
+class heap:
+	def __init__(self):
+		self.arr = []
+		self.last = -1
+	def insert(self,val):
+		self.last+=1
+		self.arr.insert(self.last,val)
+		self.heapify_up(self.last)
+	def heapify_up(self,child):
+		if child == 0:
+			return
+		parent = (child - 1) //2
+		if self.arr[parent]>self.arr[child]:
+			return
+		self.arr[parent],self.arr[child] = self.arr[child],self.arr[parent]
+		self.heapify_up(parent)
+	def empty(self):
+		return self.last < 0
+	def trav(self):
+		if not self.empty():
+			for i in range(0,self.last+1):
+				print(self.arr[i])
+	def delete(self):
+		if not self.empty():
+			top = self.arr[0]
+			self.arr[0],self.arr[self.last] = self.arr[self.last],self.arr[0]
+			self.arr.pop(self.last)
+			self.last -= 1
+			self.heapify_down(0)
+			return(top)
+	def heapify_down(self,parent):
+		if self.empty():
+			return
+		if parent == self.last:
+			return
+		l_child = (2*parent)+1
+		r_child = (2*parent)+2
+		try:
+			l_val = self.arr[l_child] 
+		except:
+			l_val = -sys.maxsize-1
+		try:
+			r_val = self.arr[r_child] 
+		except:
+			r_val = -sys.maxsize-1
+		if l_val > r_val:
+			max_child = l_child
+			max_val = l_val
+		else:
+			max_child = r_child
+			max_val = r_val
+		if self.arr[parent]>max_val:
+			return
+		self.arr[parent],self.arr[max_child] = self.arr[max_child],self.arr[parent]
+		self.heapify_down(max_child)
+
+h1 = heap()
+h1.insert(1)
+h1.insert(6)
+h1.insert(2)
+h1.insert(9)
+h1.insert(0)
+h1.insert(3)
+h1.trav()

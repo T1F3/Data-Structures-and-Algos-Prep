@@ -1,0 +1,271 @@
+class Node:
+	def __init__(self,data=None):
+		self.data = data
+		self.next = None
+
+
+class stac:
+	def __init__(self):
+		self.top = -1
+		self.len = 10
+		self.array = [None] * self.len
+	def push(self,val):
+		if(self.top==self.len-1):
+			temp_arr = self.array
+			self.len *=2
+			self.array = [None] * self.len
+			self.array[:self.top] = temp_arr
+		self.top+=1
+		self.array[self.top] = val
+	def pop(self):
+		if(self.top==-1):
+			return
+		self.top-=1
+		return self.array[self.top+1]
+	def tops(self):
+		return self.array[self.top]
+	def not_emp(self):
+		if self.top>=0:
+			return True
+		return False
+		
+
+
+class stack_LL():
+	def __init__(self):
+		self.headNode = None
+	def trav(self):
+		if(self.headNode):
+			checkNode = self.headNode
+			print checkNode.data
+			while checkNode.next:
+				next = checkNode.next
+				print next.data
+				checkNode = next
+	def push(self,val):
+		NN = Node(val)
+		NN.next = self.headNode
+		self.headNode = NN
+	def pop(self):
+		if(not self.headNode):
+			return None
+		CNode = self.headNode
+		self.headNode = self.headNode.next
+		return CNode
+	def not_emp(self):
+		if(not self.headNode==None):
+			return True
+		return False
+	def top(self):
+		return self.headNode
+
+
+
+e1 = Node(1)
+e2 = Node(2)
+e3 = Node(3)
+e4 = Node(4)
+
+e1.next = e2
+e2.next = e3
+
+s1 = stack_LL()
+s2 = stac()
+s1.headNode = e1
+
+def rev(word):
+	ret_word = ""
+	stack = stack_LL()
+	for i in word:
+		stack.push(i)
+	for j in word:
+		ret_word+=stack.pop()
+	return ret_word
+
+
+
+def rev_LL(ll):
+	stack = stack_LL()
+	checkNode = ll.headNode
+	while(checkNode):
+		stack.push(checkNode.data)
+		checkNode = checkNode.next
+	curr = stack.pop()
+	ll.headNode = curr
+	while(stack.not_emp()):
+		next = stack.pop()
+		curr.next = next
+		curr = next
+	curr.next = None
+
+###
+#def rev_L(ll):
+#	stack = stac()
+#	checkNode = ll.headNode
+#	while(checkNode):
+#		stack.push(checkNode.data)
+#		checkNode = checkNode.next
+#	for i in range(stack.len):
+#		if(stack.not_emp()):
+#			ll.array[i] = stack.pop()
+#		else:
+#			break
+
+
+#QQ
+def balanced(string):
+	Lbrackets = stack_LL()
+	OpenB = {"(":1,"{":2,"[":3}
+	CloseB = {")":1,"}":2,"]":3}
+	for i in string:
+		if i in OpenB:
+			Lbrackets.push(OpenB[i])
+		if i in CloseB:
+			if(not Lbrackets.not_emp()):
+				return "Unbalanced"
+			if (not (CloseB[i] == Lbrackets.top().data)):
+				return "Unbalanced"
+			Lbrackets.pop()
+	if(Lbrackets.not_emp()):
+		return "Unbalanced"
+	return "Balanced"
+
+import operator
+def postfix_eval(exp):
+	exp = exp.split()
+	s1 = stack_LL()
+	operators = {"+":operator.add,"-":operator.sub,"*":operator.mul,"/":operator.div}
+	for i in exp:
+		if(not i in operators):
+			s1.push(i)
+		else:
+			opand2 = s1.pop().data
+			opand1 = s1.pop().data
+			s1.push(operators[i](int(opand1),int(opand2) ))
+	return s1.pop().data
+
+#QQ
+def inf_to_pif(exp):
+	op_prio = {"+":1,"-":1,"*":2,"/":2}
+	op_stack = stack_LL()
+	ret_exp = ""
+	exp = exp.split()
+	for i in exp:
+		if(not i in op_prio):
+			ret_exp+=i+" "
+		else:
+			if(op_stack.not_emp()):
+				while (op_prio[i]<=op_prio[op_stack.top().data]):
+					t_e = op_stack.pop().data
+					ret_exp+=t_e+" "
+					if(not op_stack.not_emp()):
+						break
+			op_stack.push(i)
+	while(op_stack.not_emp()):
+		t_e = op_stack.pop().data
+		ret_exp+=t_e+" "
+	return ret_exp
+
+
+
+#QQ
+def inf_to_pif(exp):
+	#create dictonary to store priority levels
+	op_prio = {"+":1,"-":1,"*":2,"/":2}
+	#using class implementation of stack
+	op_stack = stack()
+	ret_exp = ""
+	exp = exp.split()
+	for i in exp:
+		if(i=="("):
+			op_stack.push(i)
+		#when closing bracket found,
+		elif(i==")"):
+			#keep popping operators till you arrive at the opening compaanion bracket
+			while(not op_stack.top().data == '('):
+				t_e = op_stack.pop().data
+				ret_exp+=t_e+" "
+			#then when done, pop the opening bracket
+			op_stack.pop()
+		#if not bracket and also not an operator,
+		elif(not i in op_prio):
+			ret_exp+=i+" "
+		else:
+			if(op_stack.not_emp()):
+				if(not op_stack.top().data=='('):
+					#while priority of operator less than that of top of stack.
+					#implemented with dictionary values with character as key
+					while (op_prio[i]<=op_prio[op_stack.top().data]):
+						t_e = op_stack.pop().data
+						ret_exp+=t_e+" "
+						#if at bottom of stack or opening bracket found
+						if( (not op_stack.not_emp()) or (op_stack.top().data=="(")):
+							break
+			op_stack.push(i)
+	#clearing stack when done looping over expression for any operators left
+	while(op_stack.not_emp()):
+		t_e = op_stack.pop().data
+		ret_exp+=t_e+" "
+	return ret_exp
+
+
+
+inf_to_pif("y + ( ( ( ( a + b ) * c - d ) * ( d * v ) + c * e ) * f )")
+
+
+
+
+####### Stack with two queues
+
+class Node:
+	def __init__(self,data):
+		self.data = data
+		self.next = None
+
+class Que:
+	def __init__(self):
+		self.head = None
+		self.tail = None
+	def enQ(self,val):
+		val = Node(val)
+		if self.empty():
+			self.head = self.tail = val
+		else:
+			self.tail.next = val
+			self.tail = val
+	def deQ(self):
+		if not self.empty():
+			ret = self.head.data
+			self.head = self.head.next
+			return(ret)
+	def empty(self):
+		return self.head==None or self.tail==None
+	def single(self):
+		return (not self.empty()) and self.head==self.tail
+
+class Stack_Que:
+	def __init__(self):
+		self.Ques = [Que(),Que()]
+		self.curr_Q = 0
+	def push(self,val):
+		self.Ques[self.curr_Q].enQ(val)
+	def pop(self):
+		if not self.empty():
+			while not self.Ques[self.curr_Q].single():
+				self.Ques[not self.curr_Q].enQ(self.Ques[self.curr_Q].deQ())
+			self.curr_Q = not self.curr_Q
+			return(self.Ques[not self.curr_Q].deQ())
+	def empty(self):
+		return self.Ques[0].empty() and self.Ques[1].empty()
+
+
+S1 = Stack_Que()
+S1.push(1)
+S1.push(2)
+S1.push(3)
+S1.pop()
+S1.pop()
+S1.pop()
+
+
+

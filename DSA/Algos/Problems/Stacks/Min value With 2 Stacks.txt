@@ -1,0 +1,51 @@
+class Node:
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+
+class stack:
+	def __init__(self):
+		self.head = None
+	def push(self,val):
+		N_val = Node(val)
+		if not self.head:
+			self.head = N_val
+		else:
+			old_head = self.head
+			N_val.next = old_head
+			self.head = N_val
+	def pop(self):
+		if self.head:
+			old_head = self.head
+			self.head = self.head.next
+			return old_head.data
+	def peek(self):
+		if self.head:
+			return self.head
+
+class min_stack(stack):
+	def __init__(self):
+		self.head = None
+		self.min_arr = stack()
+	def push(self,val):
+		N_val = Node(val)
+		if not self.head:
+			self.head = N_val
+		else:
+			old_head = self.head
+			N_val.next = old_head
+			self.head = N_val
+		if self.min_arr.peek():
+			if self.min_arr.peek().data>N_val.data:
+				self.min_arr.push(N_val.data)
+		else:
+			self.min_arr.push(N_val.data)
+	def pop(self):
+		if self.head:
+			if self.head.data==self.min_arr.peek().data:
+				self.min_arr.pop()
+			old_head = self.head
+			self.head = self.head.next
+			return old_head.data
+	def min(self):
+		return self.min_arr.peek().data

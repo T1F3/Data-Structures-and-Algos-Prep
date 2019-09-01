@@ -1,0 +1,32 @@
+class Node:
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+		self.min = None
+
+class stack_min:
+	def __init__(self):
+		self.head = None
+	def push(self,val):
+		N_val = Node(val)
+		if not self.head:
+			self.head = N_val
+			N_val.min = N_val.data
+		else:
+			old_head = self.head
+			N_val.next = old_head
+			self.head = N_val
+			if N_val.data < old_head.min:
+				N_val.min = N_val.data
+			else:
+				N_val.min = old_head.min
+	def pop(self):
+		if self.head:
+			old_head = self.head
+			self.head = self.head.next
+			return old_head.data
+	def min(self):
+		if self.head:
+			return self.head.min
+
+

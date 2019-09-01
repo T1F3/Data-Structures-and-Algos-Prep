@@ -1,0 +1,19 @@
+class Q:
+	def __init__(self):
+		self.len = 9
+		self.Q_dict = { 'a':{'in_ind':-1,'out_ind':-1,'l_bound':0}, 'b':{'in_ind':-1, 'out_ind':-1,'l_bound':self.len/3}, 'c':{'in_ind':-1 , 'out_ind':-1,'l_bound':2*self.len/3 } }
+		self.arr = [None]*self.len
+	def enQ(self,val,Q_key):
+		in_ind = self.Q_dict[Q_key]['in_ind']
+		bound = self.Q_dict[Q_key]['l_bound']
+		if self.arr[bound+((in_ind+1)%(self.len/3))] == None:
+			self.arr[bound+((in_ind+1)%(self.len/3))] = val
+			self.Q_dict[Q_key]['in_ind'] =  ((in_ind+1)%(self.len/3))
+	def deQ(self,Q_key):
+		out_ind = self.Q_dict[Q_key]['out_ind']
+		bound = self.Q_dict[Q_key]['l_bound']
+		if not self.arr[bound+((out_ind+1)%(self.len/3))]==None:
+			top = self.arr[bound+((out_ind+1)%(self.len/3))]
+			self.arr[bound+((out_ind+1)%(self.len/3))] = None
+			self.Q_dict[Q_key]['out_ind'] = ((out_ind+1)%(self.len/3))
+			return top

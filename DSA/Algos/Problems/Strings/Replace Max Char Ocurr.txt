@@ -1,0 +1,22 @@
+def rep_max(string,rep_char):
+	chr_arr = [0]*128
+	#O(n)
+	for i in string:
+		chr_arr[ord(i)]+=1
+	count=-1
+	max = 0
+	max_chr_ind = 0
+	#O(1)
+	for j in chr_arr:
+		count+=1
+		if j>max:
+			max = j
+			max_chr_ind = count
+	max_chr = chr(max_chr_ind)
+	string = list(string)
+	#O(n)
+	for i in range(len(string)):
+		if string[i]==max_chr:
+			string[i] = rep_char
+	string = "".join(map(str,string))
+	return string

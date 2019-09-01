@@ -1,0 +1,7 @@
+class dogs:
+	species = "mamals"
+	def __init__(self,age):	
+		self.age = age
+
+def oldest(dogs):
+	return max([x.age for x in dogs])

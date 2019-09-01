@@ -1,0 +1,530 @@
+#count occurrence of string
+def count(string):
+	char_cnt = {}
+	for i in string:
+		if i not in char_cnt:
+			char_cnt[i] = 0
+		char_cnt[i]+=1
+	return char_cnt
+
+#rev arr
+def rev(arr):
+	for i in range(len(arr)//2):
+		arr[i],arr[-i-1] = arr[-i-1],arr[i]
+	return arr
+
+#iterative fib
+def fib(n):
+	a = 0
+	b = 1
+	print(a)
+	print(b)
+	for i in range(n-1):
+		a,b = b,b+a
+		print(b)
+
+# rem duplicates
+def ren_dup(string):
+	string = list(sorted(string))
+	last = string[0]
+	i = 1
+	while i < len(string):
+		if string[i] == last:
+			del string[i]
+			i-=1
+		else:
+			last = string[i]
+		i+=1
+	return ''.join(string)
+
+
+#remove duplicates with binary, space complexity O(1)   -O(m) [32 bit binary number]
+#time complexity  O(n) -- O(nm) [n:len of string, m - size of character space ]
+#worst case, n-length string with all last-index character in char space, e.g "zzzzzzzzz"
+
+def ind(char):
+	return ord(char)-97
+
+def rem_dups(string):
+	string = list(string)
+	curr_len = len(string)
+	i = 0
+	char_check = 0
+	while i < curr_len:
+		if char_check & (1<<ind(string[i])):
+			del string[i]
+			i-=1
+			curr_len-=1
+		else:
+			char_check = char_check | (1<<ind(string[i]))
+		i+=1
+	return(''.join(string))
+
+rem_dups("geeksforgeeks")
+
+#################### sum ints in reverse ll
+
+class node:
+	def __init__(self,val):
+		self.val = val
+		self.next = None
+
+class ll:
+	def __init__(self):
+		self.head = None
+	def insert(self,val):
+		val = node(val)
+		if not self.head:
+			self.head = val
+		else:
+			val.next = self.head
+			self.head = val
+
+def rev_val(ll1):
+	stack = []
+	rev_val = []
+	if ll1.head:
+		node  = ll1.head
+		while node:
+			stack.append(node.val)
+			node = node.next
+		while len(stack):
+			rev_val.append(stack.pop())
+		return int(''.join(list(map(str,rev_val))))
+
+def rev_ll(val):
+	val = list(str(val))
+	rev_ll = ll()
+	for i in val:
+		rev_ll.insert(i)
+	return rev_ll.head
+
+def add(ll1,ll2):
+	val1 = rev_val(ll1)
+	val2 = rev_val(ll2)
+	ret_ll = rev_ll(val1+val2)
+	return ret_ll
+
+
+ll1 =ll()
+ll2 =ll()
+ll1.head = node(3)
+ll1.insert(4)
+ll1.insert(2)
+ll2.head = node(4)
+ll2.insert(6)
+ll2.insert(5)
+add(ll1,ll2)
+
+
+####################
+#max consecutive streak of numbers, 5,6,7,99,100,101,102 -> 4
+#time O(n) space O(n)-because of set
+def max_consec(arr):
+	arr = set(arr)
+	max_count = 0
+	while len(arr):
+		for curr in arr:
+			break
+		next = curr+1
+		prev = curr-1
+		count = 1
+		while next in arr:
+			count+=1
+			arr.remove(next)
+			next+=1
+		while prev in arr:
+			count+=1
+			arr.remove(prev)
+			prev-=1
+		arr.remove(curr)
+		max_count = max(max_count,count)
+	return max_count
+
+####################
+
+# Find the kth largest number in an unsorted array
+def kth_L(arr,k):
+	hp = []
+	for i in arr:
+		heapq.heappush(hp,i)
+		if len(hp)>k:
+			if i > hp[0]:
+				heapq.heappop(hp)
+	return heapq.heappop(hp)
+
+# find the total occurence of k in a sorted array
+
+def bin_searchH(arr,start,end,k):
+	if start > end:
+		return -1
+	mid = (start + end) //2
+	if arr[mid]==k:
+		return mid
+	if arr[mid]<k:
+		return bin_searchH(arr,mid+1,end,k)
+	else:
+		return bin_searchH(arr,start,mid-1,k)
+
+def bin_search(arr,k):
+	return bin_searchH(arr,0,len(arr)-1,k)
+
+####################
+def k_occr(arr,k):
+	first_k = bin_search(arr,k)
+	k_count = 0
+	if first_k<0:
+		return 0
+	for i in range(first_k,len(arr)):
+		if arr[i]==k:
+			k_count+=1
+		else:
+			break
+	pos = first_k-1
+	while pos>-1:
+		if arr[pos]==k:
+			k_count+=1
+		else:
+			break
+		pos-=1
+	return k_count
+
+
+####################
+
+
+			def valid_rows(board):
+	row_set = set()
+	for row in range(len(board)):
+		for cell in board[row]:
+			if cell is not ".":
+				if cell in row_set:
+					return False
+				row_set.add(cell)
+		row_set = set()
+	return True
+
+
+def valid_cols(board):
+	col_set = set()
+	for row in range(len(board)):
+		for col in range(len(board[row])):
+			if board[col][row] in col_set:
+				return False
+			if board[col][row] is not ".":
+				col_set.add(board[col][row])
+		col_set = set()
+	return True
+
+
+def valid_sub_cells(board):
+	sub_cell_set = set()
+	for meta_row in range(3):
+		for meta_col in range(3):
+			for m in range(3):
+				sub_row = (3*meta_row)+m
+				for n in range(3):
+					sub_col = (3*meta_col)+n
+					if board[sub_row][sub_col] in sub_cell_set:
+						return False
+					if board[sub_row][sub_col] is not ".":
+						sub_cell_set.add(board[sub_row][sub_col])
+			sub_cell_set = set()
+	return True
+
+def valid_sudoku(board):
+	return valid_rows(board) and valid_cols(board) and valid_sub_cells(board)
+
+input = [
+  ["5","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+]
+
+
+####################
+
+
+# remove k digits from number to have minimum possible numer
+def rem_k(num,k):
+	if k==len(num):
+		return("0")
+	stack = []
+	for i in range(len(num)):
+		digi = int(num[i])
+		while(k>0 and len(stack)>0 and stack[-1]>digi):
+			stack.pop(-1)
+			k-=1
+		stack.append(digi)
+	for i in range(k):
+		stack.pop(-1)
+	for i in stack:
+		return(str(int(''.join(map(str,stack)))))
+
+
+####################
+
+
+def lengthOfLongestSubstring(self, s: str) -> int:
+	if len(s)==0:
+		return 0
+	l = 0
+	r = 0
+	max_lon = 0
+	seen = set([])
+	for i in s:
+		if not i in seen:
+			r+=1
+			seen.add(i)
+			max_lon = max(max_lon,r-l)
+		else:
+			seen.remove(s[l])
+			l+=1
+	return(max_lon)
+
+
+####################
+
+#merge k sorted linked lists
+
+class Node:
+	def __init__(self,val=None):
+		self.val = val
+		self.next = None
+	def trav(self):
+		n = self
+		ret = ""
+		while n:
+			ret+=str(n.val)
+			n = n.next
+		return(ret)
+		
+
+def merge_KSL(Node_L):
+	mh = []
+	rev_stack = []
+	ret = Node(0)
+	u_val = 0
+	for n in Node_L:
+		heapq.heappush(mh,(n.val,u_val,n))
+		u_val+=1
+	while len(mh) != 0:
+		minn = heapq.heappop(mh)
+		rev_stack.append(minn[0])
+		if minn[2].next != None:
+			heapq.heappush(mh, (minn[2].next.val,u_val,minn[2].next))
+			u_val+=1
+	while len(rev_stack) !=0:
+		top = Node(rev_stack.pop())
+		top.next = ret.next
+		ret.next = top
+	return(ret.next)
+
+
+
+
+####################
+
+
+
+#longest palindromic subsequence
+
+
+def lon_pal(string):
+	stringT = "!#"+"#".join(string)+"#@"
+	c_pal = [0]*len(stringT)
+	r=c=0
+	for i in range(1,len(stringT)-1):
+		if i < r:
+			dopple_G = 2*c - i
+			c_pal[i] = min(c_pal[dopple_G],r-i)
+		while stringT[i + c_pal[i] + 1] == stringT[i - c_pal[i] - 1]:
+			c_pal[i]+=1
+		if i + c_pal[i] > r:
+			r = i + c_pal[i]
+			c = i
+	max_len = 0
+	max_ind = 0
+	ret = []
+	for i in range(len(c_pal)):
+		if c_pal[i]>max_len:
+			max_len = c_pal[i]
+			max_ind = i
+	if not stringT[max_ind] == "#":
+		ret.append(stringT[max_ind])
+		off = 2
+	else:
+		off = 1
+	for i in range(off,c_pal[max_ind]+1,2):
+		ret.append(stringT[max_ind+i])
+		ret.insert(0,stringT[max_ind+i])
+	return(''.join(ret))
+
+
+####################
+
+#minimum meeting rooms required for some clashing meetings
+
+def meet_rooms(meet_times):
+	mh = []
+	meet_times = sorted(meet_times)
+	heapq.heappush(mh,meet_times[0][1])
+	for m in range(1,len(meet_times)):
+		earl_end = heapq.heappop(mh)
+		if meet_times[m][0] >= earl_end:
+			earl_end = meet_times[m][1]
+		else:
+			heapq.heappush(mh,meet_times[m][1])
+		heapq.heappush(mh,earl_end)
+	return(len(mh))
+	
+####################
+
+#merge intervals, 1-4 , 2-6 = 1-6
+
+def mer_intval(intval):
+	if len(intval)<=1:
+		return intval
+	intval = sorted(intval)
+	ret = []
+	if intval[0][1]>=intval[1][0]:
+		super = [intval[0][0],max(intval[1][1],intval[0][1])]
+		ret.append(super)
+	else:
+		ret.append(intval[0])
+		ret.append(intval[1])
+	i = 2
+	while i < len(intval):
+		if ret[-1][1]>=intval[i][0]:
+			super = [ ret[-1][0],max(ret[-1][1],intval[i][1]) ]
+			ret[-1] = super
+		else:
+			ret.append(intval[i])
+		i+=1
+	return(ret)
+
+
+
+####################
+
+
+#reverse string forward and backward
+
+def rev1(string,revs):
+	sums = sum([x[1]*-1 for x in revs if x[0]==0]+[x[1] for x in revs if x[0]==1])%len(string)
+	if sums>=0:
+		return(string[sums:]+string[:sums])
+	else:
+		return(string[len(string)+sums:]+string[:len(string)+sums:])
+
+
+
+####################
+
+#is one string rotated version of another?
+
+def rotateString(A,B):
+	if len(A)!=len(B):
+		return False
+	if set(A)!=set(B):
+		return False
+	for i in range(len(A)+1):
+		rot_A = A[i:]+A[:i]
+		if rot_A==B:
+			return True
+	return False
+
+
+####################
+
+#min jumps to end On^2(
+
+def min_jumps_DP(arr):
+	jumps = [0]+[sys.maxsize]*(len(arr)-1)
+	orig = [-1]*len(arr)
+	for i in range(1,len(arr)):
+		for j in range(i):
+			if (arr[j]>=i-j) and (jumps[i]>jumps[j]+1):
+				jumps[i] = jumps[j]+1
+				orig[i] = j
+	return(jumps[-1]<sys.maxsize)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

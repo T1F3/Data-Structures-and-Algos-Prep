@@ -1,0 +1,73 @@
+class Node:
+	def __init__(self,data,key):
+		self.key = key
+		self.data = data
+		self.next = None
+
+class LL:
+	def __init__(self):
+		self.headNode = None
+	def prependl(self,val,key):
+		node = Node(val,key)
+		currNode = self.headNode
+		if(self.headNode):
+			while currNode.next:
+				if currNode.key==node.key:
+					currNode.data = node.data
+					return
+				currNode = currNode.next
+			if currNode.key==node.key:
+				currNode.data = node.data
+			else:
+				currNode.next = node
+		else:
+			self.headNode = node
+	def findl(self,key):
+		currNode = self.headNode
+		while currNode:
+			if currNode.key==key:
+				return currNode.data
+			currNode = currNode.next
+	def dell(self,key):
+		prevNode = None
+		currNode = self.headNode
+		if currNode.key==key:
+			self.headNode = None
+			return
+		while currNode:
+			if currNode.key==key:
+				prevNode.next = currNode.next
+				return
+			prevNode = currNode
+			currNode = currNode.next
+
+def hash(val):
+	ret = 0
+	for i in val:
+		ret+=ord(i)
+	return ret%64
+
+class HT:
+	def __init__(self):
+		self.arr = [None]*64
+	def insert(self,val,key):
+		index = hash(key)
+		if not self.arr[index]:
+			self.arr[index] = LL()
+		self.arr[index].prependl(val,key)
+	def find(self,key):
+		index = hash(key)
+		if self.arr[index]:
+			return self.arr[index].findl(key)
+	def delete(self,key):
+		index = hash(key)
+		if self.arr[index]:
+			index = hash(key)
+			self.arr[index].dell(key)
+
+ht1 = HT()
+
+#ht1.insert('09090909','Deola')
+#ht1.insert('77777777','@Deola')
+#ht1.insert('111111','%')
+#ht1.find('b')

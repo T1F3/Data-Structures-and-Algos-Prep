@@ -1,0 +1,13 @@
+# How would you determine if there is a cycle in a linked list? 
+
+# How would you find the head of the cycle i.e. where the cycle starts?
+
+# How would you find the kth element from the end of a linked list?
+
+# Given a linked list with three fields: a data field, a next field and a random pointer field
+(which is a field that points to null or to an element in the linked list) write a function to return
+a copy of the linked list without destructively modifying the original linked list  
+
+# find value in pivoted, sorted array
+
+# all sum combinations in list

@@ -1,0 +1,64 @@
+class graph:
+	def __init__(self):
+		self.dict = {}
+	def nodes(self):
+		return(list(self.dict))
+	def add(self,n1,n2):
+		try:
+			self.dict[n1].add(n2)
+		except:
+			self.dict[n1] = set()
+			self.dict[n1].add(n2)
+	def remove(self,n1,n2):
+		try:
+			self.dict[n1].remove(n2)
+		except:
+			return -1
+	def outgoing(self,n):
+		return(list(self.dict[n]))
+	def incoming(self,n):
+		inc = []
+		for n1,n2s in self.dict.items():
+			if n in n2s:
+				inc.append(n1)
+		return(inc)
+	def topsort(self):
+		seen = set()
+		top_stack = []
+		ret = []
+		for n in self.dict:
+			self.topsort_H(n,top_stack,seen)
+		while top_stack:
+			ret.append(top_stack.pop())
+		return ret
+	def topsort_H(self,n,stack,seen):
+		if n in seen:
+			return
+		seen.add(n)
+		try:
+			for nei in self.dict[n]:
+				self.topsort_H(nei,stack,seen)
+		except:
+			pass
+		stack.append(n)
+
+
+
+def Alien_dict(words):
+	G = graph()
+	for word in range(len(words)-1):
+		for char in range(len(words[word])):
+			if words[word][char] != words[word+1][char]:
+				G.add(words[word][char] , words[word+1][char])
+				break
+	return(G).topsort()
+
+
+g = graph()
+g.add("a","b")
+g.add("a","b")
+g.add("a","c")
+g.add("a","f")
+g.add("g","a")
+g.add("h","a")
+g.incoming("a")

@@ -1,0 +1,23 @@
+class TNode:
+	def __init__(self,data):
+		self.data = data
+		self.left = None
+		self.right = None
+
+class BST:
+	def __init__(self):
+		self.root = None
+
+def Gen_BST(arr):
+	T = BST()
+	T.root = rec_BST(arr,0,len(arr)-1)
+	return T
+
+def rec_BST(arr,start,end):
+	if end<start:
+		return
+	mid_ind = (start+end)/2
+	root = TNode(arr[mid_ind])
+	root.left = rec_BST(arr,start,mid_ind-1)
+	root.right = rec_BST(arr,mid_ind+1,end)
+	return root

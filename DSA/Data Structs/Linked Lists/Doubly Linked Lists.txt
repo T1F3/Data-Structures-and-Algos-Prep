@@ -1,0 +1,93 @@
+class Node:
+	def __init__(self,data):
+		self.data  = data
+		self.next = None
+		self.prev = None
+
+class DLL():
+	def __init__(self):
+		self.headNode = None
+		self.tailNode = None
+	def find(self,val):
+		if(self.headNode):
+			checkNode = self.headNode
+			if(checkNode.data==val):
+				return checkNode
+			while(checkNode.next):
+				if(checkNode.next.data==val):
+					return checkNode.next
+				checkNode = checkNode.next
+			return None
+	def trav_fw(self):
+		if(self.headNode):
+			checkNode = self.headNode
+			print checkNode.data
+			while(checkNode.next):
+				print checkNode.next.data
+				checkNode = checkNode.next
+		return None
+	def trav_rev(self):
+		if(self.tailNode):
+			checkNode = self.tailNode
+			print checkNode.data
+			while(checkNode.prev):
+				print checkNode.prev.data
+				checkNode = checkNode.prev
+			return None
+	def insert(self,Node,index):
+		Node = Node(Node)
+		if(self.headNode):
+			checkNode = self.headNode
+			if(index==0):
+				self.headNode.prev = Node
+				Node.next = self.headNode
+				self.headNode = Node
+				return
+			for i in range(index-1):
+				if(checkNode.next):
+					checkNode = checkNode.next
+				else:
+					return
+			Node.prev = checkNode
+			Node.next = checkNode.next
+			checkNode.next.prev = Node
+			checkNode.next = Node
+	def rev_it(self):
+		if(self.headNode):
+			checkNode = self.headNode
+			self.tailNode = checkNode
+			while(checkNode):
+				tempNode = checkNode.next
+				tempNode1 = checkNode
+				checkNode.next = checkNode.prev
+				checkNode.prev = tempNode
+				checkNode = tempNode
+			self.headNode = tempNode1
+	def rev_rec(self,Node):
+		if(Node==self.headNode):
+			self.tailNode = Node
+		if(not Node.next):
+			self.headNode = Node
+			t = Node.next
+			Node.next = Node.prev
+			Node.prev = t
+			return
+		self.rev_rec(Node.next)
+		t = Node.next
+		Node.next = Node.prev
+		Node.prev = t
+
+
+e1 = Node(1)
+e2 = Node(2)
+e3 = Node(3)
+e4 = Node(4)
+list1 = DLL()
+list1.headNode = e1
+list1.tailNode = e3
+
+
+e1.next = e2
+e2.prev = e1
+e2.next = e3
+e3.prev = e2

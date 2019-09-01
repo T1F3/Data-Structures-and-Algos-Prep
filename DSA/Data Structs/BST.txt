@@ -1,0 +1,209 @@
+class Node:
+	def __init__(self,data):
+		self.data = data
+		self.left = self.right = None
+	def leaf(self):
+		return self.right==self.left==None
+
+class QNode:
+	def __init__(self,data):
+		self.data  = data
+		self.next = None
+
+class Q:
+	def __init__(self):
+		self.front = self.rear = None
+	def enQ(self,val):
+		if val:
+			val  = QNode(val)
+			if self.empty():
+				self.front = self.rear = val
+			else:
+				self.rear.next = val
+				self.rear = val
+	def deQ(self):
+		if self.empty():
+			return
+		else:
+			top = self.front
+			self.front = self.front.next
+			return
+	def empty(self):
+		if self.front==None or self.rear==None:
+			return True
+		else:
+			return False
+	def top(self):
+		return self.front
+
+
+
+
+class BST:
+	def __init__(self):
+		self.rootNode = None
+		self.min = -sys.maxsize - 1
+	#iterative insert
+	def insert(self, val):
+		val = Node(val)
+		node = self.rootNode
+		while node:
+			if node.data<=val.data:
+				if not node.right:
+					node.right = val
+					return
+				node = node.right
+			else:
+				if not node.left:
+					node.left = val
+					return
+				node = node.left
+		self.rootNode = val
+	#recursive insert
+	def insert_rec(self,node,val):
+		if node.data<=val:
+			if not node.right:
+				node.right = Node(val)
+				return
+			self.insert_rec(node.right,val)
+		else:
+			if not node.left:
+				node.left = Node(val)
+				return
+			self.insert_rec(node.left,val)
+	def max(self):
+		node = self.rootNode
+		while node:
+			temp = node
+			node = node.right
+		return temp.data
+	def min(self):
+		node = self.rootNode
+		while node:
+			temp = node
+			node = node.left
+		return temp.data
+	def max_rec(self,node):
+		if not node.right:
+			return node.data
+		return self.max_rec(node.right)
+	def find(self,val):
+		node = self.rootNode
+		while node:
+			if node.data==val:
+				return node
+			elif node.data<val:
+				node = node.right
+			else:
+				node = node.left
+		return "Not Found"
+	def find_rec(self,node,val):
+			if not node:
+				return "Not Found"
+			if node.data==val:
+				return node
+			elif node.data<val:
+				return self.find_rec(node.right,val)
+			return self.find_rec(node.left,val)
+	def height(self,node):
+		if not node:
+			return -1
+		return ( max(self.height(node.left),self.height(node.right)) + 1 )
+	#level-order traversal
+	def LOT(self):
+		q = Q()
+		node = self.rootNode
+		q.enQ(node)
+		while not q.empty():
+			top = q.top().data
+			q.enQ(top.left)
+			q.enQ(top.right)
+			print top.data
+			q.deQ()
+	def PrOrder(self,Node):
+		if Node.leaf():
+			return Node.data
+		ret  = str(Node.data)+" "
+		if Node.left:
+			ret += str(self.PrOrder(Node.left))+" "
+		if Node.right:
+			ret += str(self.PrOrder(Node.right))
+		return ret
+	def PrOrder2(self,Node):
+		if not Node:
+			return
+		print Node.data
+		self.PrOrder2(Node.left)
+		self.PrOrder2(Node.right)
+	def InOrder(self,Node):
+		if not Node:
+			return
+		self.InOrder(Node.left)
+		print Node.data
+		self.InOrder(Node.right)
+	def PoOrder(self,Node):
+		if not Node:
+			return
+		self.PoOrder(Node.left)
+		self.PoOrder(Node.right)
+		print Node.data
+	#checkTree
+	def CT(self,Node,min,max):
+		if not Node:
+			return True
+		if Node.data<max and Node.data>min and self.CT(Node.right,Node.data,max) and self.CT(Node.left,min,Node.data):
+			return True
+		else:
+			return False
+	#checkTree with In-order Traversal
+	def IOCT(self,Node):
+		if not Node:
+			return
+		self.IOCT(Node.left)
+		if Node.data<self.min:
+			return False
+		else:
+			self.min = Node.data
+		self.IOCT(Node.right)
+	def mins(self,root):
+		if not root.right:
+			return root
+		return self.mins(root.right)
+	def fin_del(self,node,val):
+		if not node:
+			return
+		if not (node.left and node.right):
+			return none
+		if node.left:
+			if node.left.data<val
+				self.fin_del(node.left.right)
+
+
+
+
+
+
+#bst1.rootNode.right.right.left
+#bst1.CT(bst1.rootNode,self.min,max)
+
+
+n = Node(7)
+bst1 = BST()
+bst1.rootNode = n
+bst1.insert_rec(bst1.rootNode,13)
+bst1.insert_rec(bst1.rootNode,3)
+bst1.insert_rec(bst1.rootNode,20)
+bst1.insert_rec(bst1.rootNode,1)
+bst1.insert_rec(bst1.rootNode,2)
+bst1.insert_rec(bst1.rootNode,12)
+bst1.insert_rec(bst1.rootNode,8)
+bst1.insert_rec(bst1.rootNode,19)
+bst1.insert_rec(bst1.rootNode,-1)
+bst1.insert_rec(bst1.rootNode,12.5)
+
+
+n1 = Node(7)
+bst11 = BST()
+bst11.rootNode = n1
+bst11.insert_rec(bst11.rootNode,3)
+bst11.insert_rec(bst11.rootNode,30)

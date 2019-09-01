@@ -1,0 +1,122 @@
+class Node:
+	def __init__(self,data=None):
+		self.data = data
+		self.next = None
+
+class LL:
+	def __init__(self):
+		self.headNode = None
+	def find(self,index):
+		if(self.headNode):
+			checkNode = self.headNode
+			for i in range(index):
+				if(checkNode.next):
+					next = checkNode.next
+					checkNode = next
+				else:
+					return None
+			return checkNode.data
+	def trav(self):
+		if(self.headNode):
+			checkNode = self.headNode
+			print checkNode.data
+			while checkNode.next:
+				next = checkNode.next
+				print next.data
+				checkNode = next
+	def insert(self,Node,index):
+		if(self.headNode):
+			checkNode = self.headNode
+			if(index==0):
+				Node.next = checkNode
+				self.headNode = Node
+				return
+			for i in range(index-1):
+				if(checkNode.next):
+					next = checkNode.next
+					checkNode = next
+				else:
+					return None
+			Node.next = checkNode.next
+			checkNode.next = Node
+	def rem_ind(self,index):
+		if(self.headNode):
+			checkNode = self.headNode
+			if(index==0):
+				self.headNode = checkNode.next
+			for i in range(index-1):
+				next = checkNode.next
+				checkNode = next
+			checkNode.next = checkNode.next.next
+	def rem_val(self,val):
+		if(self.headNode):
+			checkNode = self.headNode
+			if(checkNode.data==val):
+				self.headNode = checkNode.next
+				return
+			while(checkNode.next):
+				if(checkNode.next.data==val):
+					checkNode.next = checkNode.next.next
+					return
+				else:
+					checkNode = checkNode.next
+	def rem_all(self,val):
+		if self.headNode:
+			checkNode = self.headNode
+			if(checkNode.data==val):
+				self.headNode = checkNode.next
+			while(checkNode.next):
+				if(checkNode.next.data==val):
+					checkNode.next = checkNode.next.next
+				checkNode = checkNode.next
+				if(not checkNode):
+					return
+	def append(self, Node):
+		if(self.headNode):
+			checkNode = self.headNode
+			while(checkNode.next):
+				checkNode = checkNode.next
+			checkNode.next = Node
+	#QQ
+	def rev_it(self):
+		if(self.headNode):
+			currentNode = self.headNode
+			prevNode = None
+			while(currentNode):
+				nextNode = currentNode.next
+				currentNode.next = prevNode
+				prevNode = currentNode
+				currentNode = nextNode
+			self.headNode = prevNode
+	#QQ
+	def rev_rec(self,CNode=None,PNode=None):
+		if(not CNode.next):
+			CNode.next = PNode
+			self.headNode = CNode
+			return
+		self.rev_rec(CNode.next,CNode)
+		CNode.next = PNode
+	def print_rec(self,Node=None):
+		Node = self.headNode
+		if(not Node):
+			return
+		print Node.data
+		print_rec(self,Node.next)
+	def print_rev_rec(self,Node=None):
+		Node = self.headNode
+		if(not Node):
+			return
+		print_rev_rec(self,Node.next)
+		print Node.data
+
+
+
+list1 = LL()
+node1 = Node(4)
+node2 = Node(3)
+node3 = Node(2)
+node4 = Node(1)
+node1.next = node2
+node2.next = node3
+node3.next = node4
+list1.headNode = node1

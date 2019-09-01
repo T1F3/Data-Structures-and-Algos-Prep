@@ -1,0 +1,222 @@
+class Queue_ar:
+	def __init__(self):
+		self.len = 10
+		self.array = [None]*self.len
+		self.head = -1
+		self.tail = -1
+	def emp(self):
+		if self.head > self.tail:
+			return True
+		else:
+			return False
+	def full(self):
+		if( self.tail-self.head>=self.len-1 ):
+			return True
+		else:
+			return False
+	def top(self):
+		return self.array[self.head%self.len]
+	def enQ(self,val):
+		if self.head==-1 and self.tail==-1:
+			self.head =	self.tail = 0
+			self.array[self.head] = val
+		elif self.full():
+			return None
+		else:
+			self.tail+=1
+			self.array[self.tail%self.len] = val
+	def deQ(self):
+		if self.emp():
+			return None
+		top = self.top()
+		self.head+= 1
+		return top
+
+q = Queue_ar()
+q.array
+q.head,q.tail
+
+
+class Node:
+	def __init__(self,data):
+		self.data  = data
+		self.next = None
+		self.prev = None
+
+class DLL():
+	def __init__(self):
+		self.headNode = None
+		self.tailNode = None
+
+class Queue_dll():
+	def __init__(self,ll):
+		self.ll = ll
+	def enQ(self,val):
+		val = Node(val)
+		if self.empty():
+			self.ll.headNode = val
+			self.ll.tailNode = val
+			return
+		top = self.ll.headNode
+		self.ll.headNode.prev = val
+		self.ll.headNode = val
+		val.next = top
+	def deQ(self):
+		if self.empty():
+			return
+		bottom = self.ll.tailNode
+		if self.single():
+			self.ll.tailNode = None
+			self.ll.headNode = None
+			return bottom.data
+		self.ll.tailNode = self.ll.tailNode.prev
+		self.ll.tailNode.next = None
+		return bottom.data
+	def top(self):
+		if self.empty():
+			return
+		bottom = self.ll.tailNode
+		return bottom.data
+	def empty(self):
+		if self.ll.headNode == None or self.ll.tailNode == None:
+			return True
+		else:
+			return False
+	def single(self):
+		if self.ll.headNode == self.ll.tailNode:
+			return True
+		else:
+			return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Node:
+	def __init__(self,data):
+		self.data  = data
+		self.next = None
+
+class Q:
+	def __init__(self):
+		self.front = self.rear = None
+	def enQ(self,val):
+		val = Node(val)
+		if self.empty():
+			self.front = self.rear = val
+		else:
+			self.rear.next = val
+			self.rear = val
+	def deQ(self):
+		if self.empty():
+			return
+		else:
+			top = self.front
+			self.front = self.front.next
+			return top.data
+	def empty(self):
+		if self.front==None or self.rear==None:
+			return True
+		else:
+			return False
+
+
+
+
+
+
+########Queue with two stacks
+
+
+class Node:
+	def __init__(self,data):
+		self.data = data
+		self.next = None
+
+class ll:
+	def __init__(self):
+		self.head = None
+	def insert(self,val):
+		val = Node(val)
+		if self.head is None:
+			self.head = val
+		else:
+			val.next = self.head
+			self.head = val
+	def delete_Top(self):
+		if self.head is not None:
+			self.head = self.head.next
+	def empty(self):
+		return self.head==None
+
+class Stack:
+	def __init__(self):
+		self.ll = ll()
+	def push(self,val):
+		self.ll.insert(val)
+	def top(self):
+		if not self.ll.empty():
+			return self.ll.head.data
+	def pop(self):
+		if not self.ll.empty():
+			top = self.top()
+			self.ll.delete_Top()
+			return top
+	def empty(self):
+		return self.ll.empty()
+
+class Que_Stack:
+	def __init__(self):
+		self.enQ_stack = Stack()
+		self.deQ_stack = Stack()
+	def enQ(self,val):
+		self.enQ_stack.push(val)
+	def deQ(self):
+		if not self.deQ_stack.empty():
+			return self.deQ_stack.pop()
+		else:
+			while not self.enQ_stack.empty():
+				self.deQ_stack.push( self.enQ_stack.pop() )
+			return self.deQ_stack.pop()
+
+Q = Que_Stack()
+Q.enQ(1)
+Q.enQ(2)
+Q.enQ(3)
+Q.enQ(4)
+Q.enQ(5)
+Q.deQ()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

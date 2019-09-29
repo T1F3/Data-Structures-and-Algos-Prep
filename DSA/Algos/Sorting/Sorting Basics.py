@@ -18,7 +18,7 @@ def S_sort(arr):
 		arr[j],arr[min_ind] = arr[min_ind],arr[j]
 	return arr
 
-###O(n+m)
+###O(n+m)f
 
 def join(arr1,arr2):
 	ret = []

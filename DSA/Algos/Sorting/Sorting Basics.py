@@ -6,7 +6,7 @@ def BB_sort(arr):
 				arr[i],arr[i+1] = arr[i+1],arr[i]
 	return arr
 
-###O(n^2)
+###O(n^2)m
 
 def S_sort(arr):
 	for j in range(len(arr)):

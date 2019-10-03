@@ -17,3 +17,13 @@ class Solution:
                 return p1
         return 0
 
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        seen = set()
+        p = head
+        while p:
+            if p in seen:
+                return p
+            seen.add(p)
+            p = p.next
+        return None

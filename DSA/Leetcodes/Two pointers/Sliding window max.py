@@ -27,14 +27,4 @@ class Solution:
  
 
 
-def next_greater_element(arr):
-    nge = []
-    for i in range(len(arr)):
-        for j in range(i + 1, len(arr) + 1):
-            if j < len(arr) and arr[j] > arr[i]:
-                break
-        nge_i = arr[j] if j < len(arr) else -1
-        nge.append(nge_i)
-    return nge
-
 

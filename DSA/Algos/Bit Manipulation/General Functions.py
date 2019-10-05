@@ -19,5 +19,6 @@ def insert(num,index,val):
 	return upd_num
 
 def fit(N,M,j,i,bits):
+#5
 
 def float_2_bin():
